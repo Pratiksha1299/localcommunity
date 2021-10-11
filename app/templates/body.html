@@ -1,0 +1,15 @@
+{% extends 'base1.html' %}
+{% block homeactive %} active {% endblock homeactive %}
+{% block content %}
+    <div  class="jumbotron " style="background-image:url(static/images/comm.jpg); background-size:cover; padding-top:120px;">
+          <h1 class="display-4 text-primary" >Local Community System</h1>
+          <p class="lead text-white"> This is a Local Community Service Provider Website 4</p>
+          <hr class="my-4">
+          <p class="text-white">Community services offer support to the public. The support may be information,
+              advice, practical help, financial help or a combination of services.
+              The community service may be run by federal, state or local government or by a
+              non-government organisation such as a charity. Generally, community services
+              are either free or well priced.</p>
+          <a class="btn btn-primary btn-lg" href="{% url 'serviceHome' %}" role="button">Services</a>
+    </div>
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends 'base1.html' %}
+{% block title %}Book Reviews {% endblock %}
+{% block profileactive %} active {% endblock profileactive %}
+{% block content %}
+
+<style>
+    .flexrow{
+        display:flex;
+        border:2px black;
+    }
+    .flexrow> div{
+        flex:1;
+    }
+
+    .info{
+        border: 2px solid green;
+        border-radius: 5px 25px;
+        border-color:white;
+        padding:5px;
+        margin:20px 5px 5px 5px;
+        }
+</style>
+
+
+    <div class=" container flexrow">
+        <div class="info ">
+            <h2 class="text-center border border-primary">Profile</h2>
+            <br>
+             <strong><p class="text-center">Username: {{ request.user.username }}</strong><br></p>
+             <strong><p class="text-center">Date Joined: {{ request.user.date_joined }}</strong><br></p>
+             <strong><p class="text-center">Email: {{ request.user.email }}</strong><br></p>
+             <strong><p class="text-center">Last Login: {{ request.user.last_login }}</strong><br></p>
+
+        </div>
+    </div>
+
+
+
+{% endblock %}

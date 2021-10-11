@@ -1,0 +1,15 @@
+{% extends 'base1.html' %}
+{% block addactive %} active {% endblock addactive %}
+
+{% block content %}
+        <div class="container">
+                <h2>Add Service</h2><br>
+                <form method="POST" {% if is_file_uploaded %} enctype="multipart/form-data"{% endif %} >
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary">
+                        Save
+                </button>
+            </form>
+        </div>
+{% endblock %}

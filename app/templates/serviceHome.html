@@ -1,0 +1,24 @@
+{% extends 'base1.html' %}
+{% block title %} BlogHome {% endblock title %}
+{% block serviceactive %} active {% endblock serviceactive %}
+{% block content %}
+    <h2>Local Community Services</h2>
+    <div class="row">
+        <br>
+        {% for post in allPosts  %}
+        <div class="col-md-3">
+                    <br>
+            <div class="card mb-3" >
+                <strong class="d-inline-block mb-1 text-center "> Service by {{post.provider}} </strong>
+                <img class="card-img-top" {% if post.cover %}
+                            <img src="{{ post.cover.url }}"  alt="Card image"  {% else %} <img src="static/images/user12.jpg" alt="user"{% endif %} style="width: 100%; height: 17vw; object-fit: cover; ">
+
+                <a href="{{post.slug}}" role="button" ><h3 class="card-body text-center">{{post.name| truncatechars:20}}</h3></a>
+
+            </div>
+        </div>
+        {% endfor %}
+        <br>
+    </div>
+<br>
+ {% endblock %}

@@ -1,0 +1,107 @@
+{% extends 'base1.html' %}
+{% load humanize %}
+{% load extras %}
+
+{% block title %} Service Detail {% endblock title %}
+
+{% block content %}
+
+<div class="container my-3 p-3 text-white" style="width:80%" xmlns="http://www.w3.org/1999/html">
+    <div class="row align-items-start">
+        <div class="col">
+            {% if post.cover %}
+                <img class="border border-primary" style="width: 80%; height: 18vw; object-fit: cover; "src="{{ post.cover.url }}" >
+                <br>
+            {% else %}
+                <img class="border border-primary" style="width: 80%; height: 18vw; object-fit: cover; " src="static/images/user12.jpg" alt="user">
+            {% endif %}
+
+        </div>
+        <div class="col " >
+            <h2 class="blog-post-title text-danger border border-dark text-center" > {{post.name}}</h2><br>
+
+            <strong><span class="text-dark">Provider Name: </span></strong><span>{{post.provider}}</a></span>
+            <br>
+            <span class="text-dark">Date: </span><span class="blog-post-meta ">{{post.timeStamp}}</span>
+            <br>
+            <span class="text-dark">Contact: </span><span>{{post.provider_contact}}</span>
+            <br>
+            <span class="text-dark">Price: </span><span>{{post.price}}</span>
+            <hr>
+
+            {% if user.is_superuser %}
+            <form method="post">
+                {% csrf_token %}
+                <h5>Are you want to delete this post</h5>
+                <input type="submit" class="btn btn-lg btn-danger" value="yes">
+                <a href="{% url 'serviceHome' %}">Cancle</a>
+            </form>
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</div>
+<div class="container">
+    <h2>Queries({{comments.count}})</h2>
+    <form action="postComment" method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <input type="text" class="form-control" name="comment" placeholder="Enter Question here">
+            <textarea type="" class="form-control" name="querydetail" placeholder="Enter Query Detail"></textarea>
+
+        </div>
+        <input type="hidden" name="postSno" value="{{post.sno}}">
+        <input type="hidden" name="parentSno" value="">
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+    {% for comment in comments %}
+    <div class="row my-3 "><!--mx-0 bg-primary-->
+        <div class="col-md-1 ">
+            <img class="rounded mx-auto d-block w-100 p-2 border border-dark" src="/static/images/user.png" alt="user" ></div>
+        <div class="col-md-11 ">
+        <strong> {{comment.user.username}} </strong> <span class="badge badge-secondary" > {{comment.timestamp| naturaltime}}</span>
+        <div class="text-dark">  {{comment.query_type}} </div>
+        <div class="text-white">  {{comment.query_detail}} </div>
+
+            <div class="reply mx-0">
+                {% if user.is_superuser %}
+                    <div id="replyBox{{comment.sno}}">
+                        <div class="card card-body my-2">
+                            <form action="postComment" method="post">
+                                {% csrf_token %}
+                                <div class="form-group">
+                                    <label for="comment">Post a reply </label>
+                                    <input type="text" class="form-control" name="comment" placeholder="Enter comment here">
+                                    <input type="hidden" name="parentSno" value="{{comment.sno}}">
+                                </div>
+                                <input type="hidden" name="postSno" value="{{post.sno}}">
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </form>
+                        </div>
+                    </div>
+                {% endif %}
+                    <div class="replies my-2 text-white">
+                        {% for reply in replyDict|get_val:comment.sno %}
+                        <div class="row my-2">
+                            <div class="col-md-1 ">
+                                <img class="rounded mx-auto d-block w-75 my-2 border border-dark p-2" src="/static/images/user.png" alt="user">
+                            </div>
+                            <div class="col-md-11">
+                                <div class="col-md-11 ">
+                                    <strong> {{reply.user.username}} </strong> <span class="badge badge-secondary ">{{reply.timestamp| naturaltime}}</span>
+                                    <div class="text-dark bg-white">{{reply.query_type}}</div>
+                                </div>
+                                <br>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+
+                </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
